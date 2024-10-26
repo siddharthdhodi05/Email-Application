@@ -51,8 +51,8 @@ const Sidebar = () => {
       </div>
       <div className="text-gray-500">
       {
-        sidebarItems.map((items)=>(
-          <div className="hover:bg-gray-200 hover:text-black flex pl-6 py-1 rounded-r-full items-center gap-4 my-2  hover:cursor-pointer">
+        sidebarItems.map((items, index)=>(
+          <div key={index} className="hover:bg-gray-200 hover:text-black flex pl-6 py-1 rounded-r-full items-center gap-4 my-2  hover:cursor-pointer">
           {items.icon}
           <p>{items.text}</p>
         </div>
