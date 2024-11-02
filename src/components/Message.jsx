@@ -28,6 +28,9 @@ const Message = ({ emails }) => {
         <div className=" flex-none text-gray-300">
           <RiStarLine className=" h-5 w-5" />
         </div>
+        <div>
+          <h1 className="font-semibold">{emails?.to}</h1>
+        </div>
       </div>
       <div className=" flex-1 ml-4">
         <p className=" text-gray-600 truncate inline-block max-w-full">

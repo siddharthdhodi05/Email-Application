@@ -5,13 +5,26 @@ import { CiCircleQuestion } from "react-icons/ci";
 import { IoSettings } from "react-icons/io5";
 import { PiDotsNineBold } from "react-icons/pi";
 import Avatar from "react-avatar";
-import { useDispatch } from "react-redux";
-import { setSearchText } from "../../redux/appSlice";
-
+import { useDispatch, useSelector } from "react-redux";
+import { setSearchText, setUser } from "../../redux/appSlice";
+import { AnimatePresence, motion } from "framer-motion";
+import { signOut } from "firebase/auth";
+import { auth } from "../../firebase";
 
 const Navbar = () => {
+  const {user} = useSelector(store=>store.appSlice);
   const dispatch = useDispatch();
+  const [toggle, setToggle] = useState(false);
   const [input, setinput] = useState("")
+
+  const signOutHandler = () => {
+    signOut(auth).then(() => {
+      dispatch(setUser(null));
+    }).catch((error) => {
+      console.log(error);
+    });
+  }
+
   useEffect(() => {
     dispatch(setSearchText(input))
   }, [input])
@@ -55,7 +68,21 @@ const Navbar = () => {
             <PiDotsNineBold size={"20px"} />
           </div>
           <div className=" cursor-pointer">
-            <Avatar src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSwRPWpO-12m19irKlg8znjldmcZs5PO97B6A&s" size="40" round={true} />
+            <Avatar onClick={() => setToggle(!toggle)} src="{user?.photoURL}" googleId="118096717852922241760" size="40" round={true} />
+             <AnimatePresence>
+              {
+                toggle && (
+                  <motion.div
+                    initial={{ opacity: 0, scale: 0.8 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.8 }}
+                    transition={{ duration: 0.1 }}
+                    className='absolute right-2 z-20 shadow-lg bg-white rounded-md'>
+                    <p onClick={signOutHandler} className='p-2 underline'>LogOut</p>
+                  </motion.div>
+                )
+              }
+            </AnimatePresence>
           </div>
         </div>
         
